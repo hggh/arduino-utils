@@ -1,5 +1,5 @@
 #include <avr/power.h>
-#include "voltage.h"
+#include "Voltage.h"
 
 void Voltage::init(void) {
   ADCSRA_status = ADCSRA;
