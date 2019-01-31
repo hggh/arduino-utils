@@ -1,3 +1,5 @@
+#include "ShiftOutRegister.h"
+
 void ShiftOutRegister::init(short i_dataPin, short i_shiftPin, short i_storePin, short i_enablePin, short i_output_count) {
   this->dataPin = i_dataPin;
   this->shiftPin = i_shiftPin;
