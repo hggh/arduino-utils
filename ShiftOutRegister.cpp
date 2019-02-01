@@ -17,9 +17,9 @@ void ShiftOutRegister::init(short i_dataPin, short i_shiftPin, short i_storePin,
   // init dynamic array with all output disabled then set OE to HIGH
   this->data = new int[this->output_count]();
   for (short i = 0; i < this->output_count; i++) {
-    set_bit(i, 0);
+    this->set_bit(i, 0);
   }
-  startup();
+  this->startup();
 }
 
 void ShiftOutRegister::shift(short val) {
@@ -31,7 +31,7 @@ void ShiftOutRegister::shift(short val) {
 }
 
 void ShiftOutRegister::startup(void) {
-  writeOut();
+  this->writeOut();
   digitalWrite(this->enablePin, LOW);
 }
 
@@ -44,7 +44,7 @@ void ShiftOutRegister::set_bit(short number, short val) {
 void ShiftOutRegister::writeOut(void) {
   digitalWrite(this->storePin, LOW);
   for (short i = this->output_count -1; i>=0; i--) {
-    shift(this->data[i]);
+    this->shift(this->data[i]);
   }
   digitalWrite(this->storePin, HIGH);
 }
