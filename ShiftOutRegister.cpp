@@ -1,11 +1,11 @@
 #include "ShiftOutRegister.h"
 
-void ShiftOutRegister::init(short i_dataPin, short i_shiftPin, short i_storePin, short i_enablePin, short i_output_count) {
-  this->dataPin = i_dataPin;
-  this->shiftPin = i_shiftPin;
-  this->storePin = i_storePin;
-  this->enablePin = i_enablePin;
-  this->output_count = i_output_count;
+void ShiftOutRegister::init(short dataPin, short shiftPin, short storePin, short enablePin, short output_count) {
+  this->dataPin = dataPin;
+  this->shiftPin = shiftPin;
+  this->storePin = storePin;
+  this->enablePin = enablePin;
+  this->output_count = output_count;
 
   pinMode(this->dataPin, OUTPUT);
   pinMode(this->shiftPin, OUTPUT);
