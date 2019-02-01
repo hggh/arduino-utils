@@ -1,6 +1,6 @@
 #include "ShiftOutRegister.h"
 
-void ShiftOutRegister::init(short dataPin, short shiftPin, short storePin, short enablePin, short output_count) {
+void ShiftOutRegister::init(uint8_t dataPin, uint8_t shiftPin, uint8_t storePin, uint8_t enablePin, uint8_t output_count) {
   this->dataPin = dataPin;
   this->shiftPin = shiftPin;
   this->storePin = storePin;
@@ -15,14 +15,14 @@ void ShiftOutRegister::init(short dataPin, short shiftPin, short storePin, short
   digitalWrite(this->enablePin, HIGH);
 
   // init dynamic array with all output disabled then set OE to HIGH
-  this->data = new int[this->output_count]();
+  this->data = new uint8_t[this->output_count]();
   for (short i = 0; i < this->output_count; i++) {
     this->set_bit(i, 0);
   }
   this->startup();
 }
 
-void ShiftOutRegister::shift(short val) {
+void ShiftOutRegister::shift(uint8_t val) {
   digitalWrite(this->shiftPin, LOW);
 
   digitalWrite(this->dataPin, val);
@@ -35,7 +35,7 @@ void ShiftOutRegister::startup(void) {
   digitalWrite(this->enablePin, LOW);
 }
 
-void ShiftOutRegister::set_bit(short number, short val) {
+void ShiftOutRegister::set_bit(uint8_t number, uint8_t val) {
   if (number <= this->output_count) {
     this->data[number] = val;
   }

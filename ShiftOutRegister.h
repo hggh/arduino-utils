@@ -2,17 +2,16 @@
 
 class ShiftOutRegister {
   public:
-    void init(short dataPin, short shiftPin, short storePin, short enablePin, short output_count);
-    void set_bit(short number, short val);
+    void init(uint8_t dataPin, uint8_t shiftPin, uint8_t storePin, uint8_t enablePin, uint8_t output_count);
+    void set_bit(uint8_t number, uint8_t val);
     void writeOut(void);
   private:
     void startup(void);
-    void shift(short val);
-    short dataPin;
-    short shiftPin;
-    short storePin;
-    short enablePin;
-    short output_count;
-    int *data;
-  
+    void shift(uint8_t val);
+    uint8_t dataPin;
+    uint8_t shiftPin;
+    uint8_t storePin;
+    uint8_t enablePin;
+    uint8_t output_count;
+    uint8_t *data;
 };
