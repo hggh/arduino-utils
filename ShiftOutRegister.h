@@ -1,5 +1,8 @@
 #include <Arduino.h>
 
+#ifndef ShiftOutRegister_h
+#define ShiftOutRegister_h
+
 class ShiftOutRegister {
   public:
     void init(uint8_t dataPin, uint8_t shiftPin, uint8_t storePin, uint8_t enablePin, uint8_t output_count);
@@ -15,3 +18,4 @@ class ShiftOutRegister {
     uint8_t output_count;
     uint8_t *data;
 };
+#endif
