@@ -12,6 +12,15 @@ void Shutter::begin(uint8_t power, uint8_t updown, uint8_t seconds) {
   digitalWrite(this->pin_updown, LOW);
 }
 
+void Shutter::begin(uint8_t power, uint8_t updown, uint8_t seconds, ShiftOutRegister *sh_register) {
+  this->pin_power = power;
+  this->pin_updown = updown;
+  this->running_seconds = seconds;
+
+  this->shiftout = true;
+  this->sh_register = sh_register;
+}
+
 void Shutter::timer(void) {
   if (this->timer_active != 1) {
     return;
@@ -38,14 +47,27 @@ void Shutter::activate_timer(void) {
 }
 
 void Shutter::complete_power_down(void) {
-  digitalWrite(this->pin_power, LOW);
-  digitalWrite(this->pin_updown, LOW);
+  if (this->shiftout == true) {
+    this->sh_register->set_bit(this->pin_power, LOW);
+    this->sh_register->set_bit(this->pin_updown, LOW);
+    this->sh_register->writeOut();
+  }
+  else {
+    digitalWrite(this->pin_power, LOW);
+    digitalWrite(this->pin_updown, LOW);
+  }
 
   this->operation = OPERATION_NOPOWER;
 }
 
 void Shutter::power_down(void) {
-  digitalWrite(this->pin_power, LOW);
+  if (this->shiftout == true) {
+    this->sh_register->set_bit(this->pin_power, LOW);
+    this->sh_register->writeOut();
+  }
+  else {
+    digitalWrite(this->pin_power, LOW);
+  }
 }
 
 void Shutter::up(void) {
@@ -56,7 +78,14 @@ void Shutter::up(void) {
     this->complete_power_down();
   }
   this->operation = OPERATION_UP;
-  digitalWrite(this->pin_power, HIGH);
+
+  if (this->shiftout == true) {
+    this->sh_register->set_bit(this->pin_power, HIGH);
+    this->sh_register->writeOut();
+  }
+  else {
+    digitalWrite(this->pin_power, HIGH);
+  }
   this->activate_timer();
   interrupts();
 }
@@ -69,9 +98,23 @@ void Shutter::down(void) {
     this->complete_power_down();
   }
   this->operation = OPERATION_DOWN;
-  digitalWrite(this->pin_updown, HIGH);
+  if (this->shiftout == true) {
+    this->sh_register->set_bit(this->pin_updown, HIGH);
+    this->sh_register->writeOut();
+  }
+  else {
+    digitalWrite(this->pin_updown, HIGH);
+  }
+
   delay(5);
-  digitalWrite(this->pin_power, HIGH);
+
+  if (this->shiftout == true) {
+    this->sh_register->set_bit(this->pin_power, HIGH);
+    this->sh_register->writeOut();
+  }
+  else {
+    digitalWrite(this->pin_power, HIGH);
+  }
   this->activate_timer();
   interrupts();
 }

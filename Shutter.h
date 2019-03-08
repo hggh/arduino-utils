@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "ShiftOutRegister.h"
 
 #ifndef Shutter_h
 #define Shutter_h
@@ -10,6 +11,7 @@
 class Shutter {
   public:
     void begin (uint8_t power, uint8_t updown, uint8_t seconds);
+    void begin (uint8_t power, uint8_t updown, uint8_t seconds, ShiftOutRegister *sh_register);
     void power_down(void);
     void complete_power_down(void);
     void timer(void);
@@ -18,6 +20,8 @@ class Shutter {
     void down(void);
     void halt(void);
   private:
+    ShiftOutRegister *sh_register;
+    boolean shiftout = false;
     uint8_t pin_power;
     uint8_t pin_updown;
     uint8_t running_seconds;
