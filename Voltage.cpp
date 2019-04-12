@@ -1,3 +1,4 @@
+#if defined(__AVR_ATmega328P__)
 #include <avr/power.h>
 #include "Voltage.h"
 
@@ -32,3 +33,4 @@ float Voltage::read(void) {
 
   return battery_voltage;
 }
+#endif
